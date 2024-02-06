@@ -26,3 +26,11 @@ Metrics/MethodLength:
 # Ignore perceived complexity
 Metrics/PerceivedComplexity:
   Enabled: false
+
+# Ignore block length
+Metrics/BlockLength:
+  Enabled: false
+
+# Ignore ABC size
+Metrics/AbcSize:
+  Enabled: false
