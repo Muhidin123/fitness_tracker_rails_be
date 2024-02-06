@@ -1,1 +1,1 @@
-json.partial! "units/unit", unit: @unit
+json.partial! 'units/unit', unit: @unit

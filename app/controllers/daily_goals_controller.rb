@@ -1,5 +1,5 @@
 class DailyGoalsController < ApplicationController
-  before_action :set_daily_goal, only: %i[ show update destroy ]
+  before_action :set_daily_goal, only: %i[show update destroy]
 
   # GET /daily_goals
   # GET /daily_goals.json
@@ -9,8 +9,7 @@ class DailyGoalsController < ApplicationController
 
   # GET /daily_goals/1
   # GET /daily_goals/1.json
-  def show
-  end
+  def show; end
 
   # POST /daily_goals
   # POST /daily_goals.json
@@ -41,13 +40,14 @@ class DailyGoalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_daily_goal
-      @daily_goal = DailyGoal.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def daily_goal_params
-      params.require(:daily_goal).permit(:calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, :account_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_daily_goal
+    @daily_goal = DailyGoal.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def daily_goal_params
+    params.require(:daily_goal).permit(:calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, :account_id)
+  end
 end

@@ -1,5 +1,5 @@
 class IngredientsController < ApplicationController
-  before_action :set_ingredient, only: %i[ show update destroy ]
+  before_action :set_ingredient, only: %i[show update destroy]
 
   # GET /ingredients
   # GET /ingredients.json
@@ -9,8 +9,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/1
   # GET /ingredients/1.json
-  def show
-  end
+  def show; end
 
   # POST /ingredients
   # POST /ingredients.json
@@ -41,13 +40,14 @@ class IngredientsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ingredient
-      @ingredient = Ingredient.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ingredient_params
-      params.require(:ingredient).permit(:name, :calories, :protein, :fat, :carbs, :sugar)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ingredient
+    @ingredient = Ingredient.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def ingredient_params
+    params.require(:ingredient).permit(:name, :calories, :protein, :fat, :carbs, :sugar)
+  end
 end
