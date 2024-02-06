@@ -1,0 +1,28 @@
+# Prefer single quotes for strings
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Set line length to 300 characters
+Layout/LineLength:
+  Max: 300
+
+# Ignore top-level documentation for classes
+Layout/ClassStructure:
+  Exclude:
+    - '**/*.rb'
+
+# Add other common rules here
+# Ignore missing top-level documentation comment for classes
+Style/Documentation:
+  Exclude:
+    - '**/*.rb'
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+# Ignore method length
+Metrics/MethodLength:
+  Enabled: false
+
+# Ignore perceived complexity
+Metrics/PerceivedComplexity:
+  Enabled: false
