@@ -43,6 +43,7 @@ gem 'rack-cors'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'annotate'
   gem 'database_cleaner-active_record'
   gem 'debug', platforms: %i[mri windows]
   gem 'faker'
@@ -60,3 +61,7 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+gem 'rodauth-rails', '~> 1.13'
+
+gem 'jwt', '~> 2.7'
