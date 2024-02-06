@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: fitnessApp
+      POSTGRES_PASSWORD: fitnessApp
+    ports:
+      - "${POSTGRES_PORT_EXTERNAL}:${POSTGRES_PORT_INTERNAL}"
+  rabbitmq:
+    image: rabbitmq
+    environment:
+     - RABBITMQ_PLUGINS_DIR=/opt/rabbitmq/plugins:/usr/lib/rabbitmq/plugins
+    ports:
+      - "${RABBITMQ_PORT_MAIN_EXTERNAL}:${RABBITMQ_PORT_MAIN_INTERNAL}"
+      - "${RABBITMQ_PORT_MANAGEMENT_EXTERNAL}:${RABBITMQ_PORT_MANAGEMENT_INTERNAL}"
+    volumes:
+      - ./rabbit/enabled_plugins:/etc/rabbitmq/enabled_plugins
+  redis:
+    image: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
