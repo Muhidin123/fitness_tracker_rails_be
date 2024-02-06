@@ -12,15 +12,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_206_170_008) do
+ActiveRecord::Schema[7.1].define(version: 20_240_206_171_708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'citext'
   enable_extension 'plpgsql'
+
+  create_table 'account_active_session_keys', primary_key: %w[account_id session_id], force: :cascade do |t|
+    t.bigint 'account_id', null: false
+    t.string 'session_id', null: false
+    t.datetime 'created_at', default: -> { 'CURRENT_TIMESTAMP' }, null: false
+    t.datetime 'last_use', default: -> { 'CURRENT_TIMESTAMP' }, null: false
+    t.index ['account_id'], name: 'index_account_active_session_keys_on_account_id'
+  end
 
   create_table 'account_login_change_keys', force: :cascade do |t|
     t.string 'key', null: false
     t.string 'login', null: false
     t.datetime 'deadline', null: false
+  end
+
+  create_table 'account_otp_keys', force: :cascade do |t|
+    t.string 'key', null: false
+    t.integer 'num_failures', default: 0, null: false
+    t.datetime 'last_use', default: -> { 'CURRENT_TIMESTAMP' }, null: false
   end
 
   create_table 'account_password_reset_keys', force: :cascade do |t|
@@ -29,9 +43,21 @@ ActiveRecord::Schema[7.1].define(version: 20_240_206_170_008) do
     t.datetime 'email_last_sent', default: -> { 'CURRENT_TIMESTAMP' }, null: false
   end
 
+  create_table 'account_recovery_codes', primary_key: %w[id code], force: :cascade do |t|
+    t.bigint 'id', null: false
+    t.string 'code', null: false
+  end
+
   create_table 'account_remember_keys', force: :cascade do |t|
     t.string 'key', null: false
     t.datetime 'deadline', null: false
+  end
+
+  create_table 'account_sms_codes', force: :cascade do |t|
+    t.string 'phone_number', null: false
+    t.integer 'num_failures'
+    t.string 'code'
+    t.datetime 'code_issued_at', default: -> { 'CURRENT_TIMESTAMP' }, null: false
   end
 
   create_table 'account_verification_keys', force: :cascade do |t|
@@ -47,8 +73,12 @@ ActiveRecord::Schema[7.1].define(version: 20_240_206_170_008) do
     t.index ['email'], name: 'index_accounts_on_email', unique: true, where: '(status = ANY (ARRAY[1, 2]))'
   end
 
+  add_foreign_key 'account_active_session_keys', 'accounts'
   add_foreign_key 'account_login_change_keys', 'accounts', column: 'id'
+  add_foreign_key 'account_otp_keys', 'accounts', column: 'id'
   add_foreign_key 'account_password_reset_keys', 'accounts', column: 'id'
+  add_foreign_key 'account_recovery_codes', 'accounts', column: 'id'
   add_foreign_key 'account_remember_keys', 'accounts', column: 'id'
+  add_foreign_key 'account_sms_codes', 'accounts', column: 'id'
   add_foreign_key 'account_verification_keys', 'accounts', column: 'id'
 end

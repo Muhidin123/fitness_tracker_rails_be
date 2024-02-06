@@ -8,7 +8,7 @@ class RodauthMain < Rodauth::Rails::Auth
     enable :create_account, :verify_account, :verify_account_grace_period,
            :login, :logout, :remember, :json, :active_sessions,
            :reset_password, :change_password, :change_password_notify,
-           :change_login, :verify_login_change, :close_account
+           :change_login, :verify_login_change, :close_account, :jwt
 
     # See the Rodauth documentation for the list of available config options:
     # http://rodauth.jeremyevans.net/documentation.html
@@ -31,6 +31,11 @@ class RodauthMain < Rodauth::Rails::Auth
     # Defaults to Rails `secret_key_base`, but you can use your own secret key.
     # hmac_secret "308c625732e7c75712f9900a455486b6f8cec9c6b21bc5e2ae5055f701e5d00985dc8fba0df4252ffbb849d38e7fc7c2f13ca8ec74b05082b1ee2e89f20da4e0"
 
+    # JWT Setup
+    enable :jwt
+
+    jwt_secret { hmac_secret }
+
     # Accept only JSON requests.
     only_json? true
 
@@ -39,7 +44,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # require_login_confirmation? false
 
     # Use path prefix for all routes.
-    # prefix "/auth"
+    prefix '/auth'
 
     # Specify the controller used for view rendering, CSRF, and callbacks.
     rails_controller { RodauthController }
@@ -58,8 +63,8 @@ class RodauthMain < Rodauth::Rails::Auth
 
     # Change some default param keys.
     login_param 'email'
-    login_confirm_param 'email-confirm'
-    # password_confirm_param "confirm_password"
+    # login_confirm_param 'email-confirm'
+    password_confirm_param 'confirm_password'
 
     # Redirect back to originally requested location after authentication.
     # login_return_to_requested_location? true
