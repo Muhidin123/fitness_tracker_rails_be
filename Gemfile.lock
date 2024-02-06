@@ -94,6 +94,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    dotenv (2.8.1)
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
@@ -155,6 +156,7 @@ GEM
     parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
+    pg (1.5.4)
     psych (5.1.2)
       stringio
     puma (6.4.2)
@@ -298,9 +300,11 @@ DEPENDENCIES
   bootsnap
   database_cleaner-active_record
   debug
+  dotenv
   faker
   jbuilder
   kredis
+  pg
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.3)
