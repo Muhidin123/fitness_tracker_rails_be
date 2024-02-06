@@ -64,7 +64,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # Change some default param keys.
     login_param 'email'
     # login_confirm_param 'email-confirm'
-    password_confirm_param 'confirm_password'
+    password_confirm_param 'confirm-password'
 
     # Redirect back to originally requested location after authentication.
     # login_return_to_requested_location? true
@@ -163,9 +163,28 @@ class RodauthMain < Rodauth::Rails::Auth
     #   Profile.find_by!(account_id: account_id).destroy
     # end
 
+    # Remove all active sessions when the user logs out from any device.
+    before_logout do
+      remove_all_active_sessions
+    end
+
+    # update_session do
+    #   account_id = jwt_session_hash[:account_id]
+    #   session[:scope] = {
+    #     email: Account.find(account_id).email,
+    #     data:  [
+    #       'some data here'
+    #     ]
+    #   }
+    # end
+
+    # set_jwt_token do |token|
+    #   super(token) unless json_response_error?
+    # end
+
     # ==> Deadlines
     # Change default deadlines for some actions.
-    # verify_account_grace_period 3.days.to_i
+    verify_account_grace_period 3.days.to_i
     # reset_password_deadline_interval Hash[hours: 6]
     # verify_login_change_deadline_interval Hash[days: 2]
     # remember_deadline_interval Hash[days: 30]
