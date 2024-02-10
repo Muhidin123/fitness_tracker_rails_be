@@ -17,5 +17,5 @@ class DailyGoal < ApplicationRecord
 
   validates :date, presence: true, uniqueness: { scope: :account_id }
   validates :calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, presence: true
-  validates :calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, numericality: { only_integer: true, greater_than: 0 }
+  validates :calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, numericality: { only_decimal: true, greater_than: 0 }
 end

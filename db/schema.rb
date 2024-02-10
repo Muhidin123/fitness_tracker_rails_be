@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_10_035918) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_10_182247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "plpgsql"
@@ -72,11 +72,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_10_035918) do
   end
 
   create_table "daily_goals", force: :cascade do |t|
-    t.integer "calorie_goal"
-    t.integer "protein_goal"
-    t.integer "fat_goal"
-    t.integer "carbs_goal"
-    t.integer "sugar_goal"
+    t.decimal "calorie_goal", precision: 10, scale: 2
+    t.decimal "protein_goal", precision: 10, scale: 2
+    t.decimal "fat_goal", precision: 10, scale: 2
+    t.decimal "carbs_goal", precision: 10, scale: 2
+    t.decimal "sugar_goal", precision: 10, scale: 2
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
