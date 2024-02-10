@@ -14,4 +14,5 @@
 #
 class Ingredient < ApplicationRecord
   has_many :meal_ingredients
+  validates :calories, :protein, :fat, :carbs, presence: true, numericality: { greater_than_or_equal_to: 0, only_decimal: true }
 end

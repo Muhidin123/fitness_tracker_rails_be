@@ -14,10 +14,10 @@ class Meal < ApplicationRecord
 
   enum name: { breakfast: 0, lunch: 1, dinner: 2, snack: 3 }
 
-  has_many :meal_ingredients
+  has_many :meal_ingredients, dependent: :destroy
   has_many :ingredients, through: :meal_ingredients
 
-  after_save do
+  after_create do
     UpdateDailyGoalValues.perform_async(id)
   end
 

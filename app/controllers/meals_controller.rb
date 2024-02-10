@@ -14,12 +14,12 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
-    @meal = Meal.new(meal_params)
-
-    if @meal.save
-      render :show, status: :created, location: @meal
+    service = CreateMealService.new(meal_params)
+    result = service.call
+    if result.is_a?(Meal)
+      render json: result, status: :created
     else
-      render json: @meal.errors, status: :unprocessable_entity
+      render json: result, status: :unprocessable_entity
     end
   end
 
@@ -48,6 +48,20 @@ class MealsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def meal_params
-    params.require(:meal).permit(:name, :meal_date, :account_id)
+    params.require(:meal).permit(
+      :name,
+      :meal_date,
+      :account_id,
+      ingredients: %i[
+        name
+        quantity
+        unit_type
+        calories
+        protein
+        fat
+        carbs
+        sugar
+      ]
+    )
   end
 end
