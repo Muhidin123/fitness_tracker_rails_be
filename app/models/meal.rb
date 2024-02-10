@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: meals
+#
+#  id         :bigint           not null, primary key
+#  name       :integer
+#  meal_date  :datetime
+#  account_id :bigint           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Meal < ApplicationRecord
   belongs_to :account
 
