@@ -2,6 +2,9 @@
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 # Set line length to 300 characters
 Layout/LineLength:
   Max: 300
