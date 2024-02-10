@@ -139,13 +139,13 @@ class RodauthMain < Rodauth::Rails::Auth
 
     # ==> Remember Feature
     # Remember all logged in users.
-    after_login { remember_login }
+    # after_login { remember_login }
 
     # Or only remember users that have ticked a "Remember Me" checkbox on login.
     # after_login { remember_login if param_or_nil("remember") }
 
     # Extend user's remember period when remembered via a cookie
-    extend_remember_deadline? true
+    # extend_remember_deadline? true
 
     # ==> Hooks
     # Validate custom fields in the create account form.
@@ -164,9 +164,9 @@ class RodauthMain < Rodauth::Rails::Auth
     # end
 
     # Remove all active sessions when the user logs out from any device.
-    before_logout do
-      remove_all_active_sessions
-    end
+    # before_logout do
+    #   remove_all_active_sessions
+    # end
 
     # update_session do
     #   account_id = jwt_session_hash[:account_id]
@@ -188,5 +188,7 @@ class RodauthMain < Rodauth::Rails::Auth
     # reset_password_deadline_interval Hash[hours: 6]
     # verify_login_change_deadline_interval Hash[days: 2]
     # remember_deadline_interval Hash[days: 30]
+
+    session_inactivity_deadline 15.minutes.to_i
   end
 end

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
     rodauth.rails_account
   end
 
-  def authenticate
+  def authenticate!
     rodauth.check_active_session && rodauth.require_account && rodauth.valid_jwt?
   end
 

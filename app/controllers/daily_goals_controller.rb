@@ -1,4 +1,5 @@
 class DailyGoalsController < ApplicationController
+  before_action :authenticate!
   before_action :set_daily_goal, only: %i[show update destroy]
 
   # GET /daily_goals
@@ -48,6 +49,6 @@ class DailyGoalsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def daily_goal_params
-    params.require(:daily_goal).permit(:calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, :account_id)
+    params.require(:daily_goal).permit(:calorie_goal, :protein_goal, :fat_goal, :carbs_goal, :sugar_goal, :account_id, :date)
   end
 end

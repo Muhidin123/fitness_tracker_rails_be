@@ -14,4 +14,6 @@
 #
 class DailyGoal < ApplicationRecord
   belongs_to :account
+
+  validates :date, presence: true, uniqueness: { scope: :account_id }
 end
