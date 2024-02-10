@@ -36,6 +36,8 @@ class RodauthMain < Rodauth::Rails::Auth
 
     jwt_secret { hmac_secret }
 
+    jwt_secret { Rails.application.credentials.key } if Rails.env.test?
+
     # Accept only JSON requests.
     only_json? true
 

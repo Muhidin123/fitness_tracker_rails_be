@@ -16,25 +16,41 @@ RSpec.describe '/daily_goals', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # DailyGoal. As you add validations to DailyGoal, be sure to
   # adjust the attributes here as well.
+  let(:account) { Account.create!(email: 'fake@example.com', password: 'password') }
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    {
+      calorie_goal: 1000,
+      carbs_goal: 100,
+      protein_goal: 100,
+      fat_goal: 100,
+      sugar_goal: 20,
+      account_id: account.id,
+      date: Date.today + rand(365).days
+    }
   end
+  let(:daily_goal) { DailyGoal.create!(valid_attributes) }
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    {
+      invalid_field: 'hello world',
+      protein_goal: 'string value'
+    }
   end
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
   # DailyGoalsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
+  let(:jwt_token) { JWT.encode({ account_id: account.id }, Rails.application.credentials.key, 'HS256') }
   let(:valid_headers) do
-    {}
+    {
+      'Authorization': "Bearer #{jwt_token}",
+      'Content-Type': 'application/json'
+    }
   end
 
   describe 'GET /index' do
     it 'renders a successful response' do
-      DailyGoal.create! valid_attributes
       get daily_goals_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
@@ -42,7 +58,6 @@ RSpec.describe '/daily_goals', type: :request do
 
   describe 'GET /show' do
     it 'renders a successful response' do
-      daily_goal = DailyGoal.create! valid_attributes
       get daily_goal_url(daily_goal), as: :json
       expect(response).to be_successful
     end
@@ -85,7 +100,10 @@ RSpec.describe '/daily_goals', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        {
+          calorie_goal: 100,
+          carbs_goal: 100
+        }
       end
 
       it 'updates the requested daily_goal' do
@@ -93,7 +111,8 @@ RSpec.describe '/daily_goals', type: :request do
         patch daily_goal_url(daily_goal),
               params: { daily_goal: new_attributes }, headers: valid_headers, as: :json
         daily_goal.reload
-        skip('Add assertions for updated state')
+        expect(daily_goal.calorie_goal).to eq(100)
+        expect(daily_goal.carbs_goal).to eq(100)
       end
 
       it 'renders a JSON response with the daily_goal' do

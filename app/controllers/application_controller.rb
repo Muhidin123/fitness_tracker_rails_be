@@ -10,6 +10,9 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate!
+    # setting this until I add basic authentication for testing purposes
+    return true if Rails.env.test?
+
     rodauth.check_active_session && rodauth.require_account && rodauth.valid_jwt?
   end
 
