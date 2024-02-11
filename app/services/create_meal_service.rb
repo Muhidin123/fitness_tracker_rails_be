@@ -5,6 +5,8 @@ class CreateMealService
     @result = {}
   end
 
+  attr_reader :result
+
   # Creates a new meal with the provided parameters and its associated ingredients.
   #
   # Returns the created meal if successful, otherwise returns an error message.

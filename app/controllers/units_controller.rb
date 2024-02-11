@@ -1,4 +1,5 @@
 class UnitsController < ApplicationController
+  before_action :authenticate!
   before_action :set_unit, only: %i[show update destroy]
 
   # GET /units

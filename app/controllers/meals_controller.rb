@@ -1,4 +1,5 @@
 class MealsController < ApplicationController
+  before_action :authenticate!
   before_action :set_meal, only: %i[show update destroy]
 
   # GET /meals
@@ -14,12 +15,11 @@ class MealsController < ApplicationController
   # POST /meals
   # POST /meals.json
   def create
-    service = CreateMealService.new(meal_params)
-    result = service.call
-    if result.is_a?(Meal)
-      render json: result, status: :created
+    @meal = Meal.new(meal_params)
+    if @meal.save!
+      render json: @meal, status: :created
     else
-      render json: result, status: :unprocessable_entity
+      render json: @meal.errors, status: :unprocessable_entity
     end
   end
 
@@ -39,6 +39,19 @@ class MealsController < ApplicationController
     @meal.destroy!
   end
 
+  # Creates a full meal using the provided parameters.
+  #
+  # @return [JSON] The created meal in JSON format if successful, or an error message in JSON format if unsuccessful.
+  def create_full_meal
+    service = CreateMealService.new(full_meal_params)
+    result = service.call
+    if result.is_a?(Meal)
+      render json: result, status: :created
+    else
+      render json: result, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -47,7 +60,7 @@ class MealsController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def meal_params
+  def full_meal_params
     params.require(:meal).permit(
       :name,
       :meal_date,
@@ -63,5 +76,9 @@ class MealsController < ApplicationController
         sugar
       ]
     )
+  end
+
+  def meal_params
+    params.require(:meal).permit(:name, :meal_date, :account_id)
   end
 end
