@@ -2,6 +2,7 @@
 class CreateMealService
   def initialize(params)
     @params = params
+    @result = {}
   end
 
   # Creates a new meal with the provided parameters and its associated ingredients.
@@ -11,10 +12,11 @@ class CreateMealService
     Meal.transaction do
       meal = Meal.create!(meal_params)
       create_meal_ingredients(meal)
+      @result[:success] = true
       meal
     end
-  rescue ActiveRecord::RecordInvalid => e
-    { error: e.message }
+  rescue StandardError => e
+    @result[:error] = e.message
   end
 
   private

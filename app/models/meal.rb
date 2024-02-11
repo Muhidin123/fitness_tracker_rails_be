@@ -16,6 +16,7 @@ class Meal < ApplicationRecord
 
   has_many :meal_ingredients, dependent: :destroy
   has_many :ingredients, through: :meal_ingredients
+  validates :account_id, :meal_date, presence: true
 
   after_create do
     UpdateDailyGoalValues.perform_async(id)
